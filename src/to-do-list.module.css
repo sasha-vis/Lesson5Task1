@@ -1,0 +1,17 @@
+.toDoList {
+	max-width: 40%;
+	margin: 50px auto;
+}
+
+.title {
+	text-align: center;
+	margin-bottom: 15px;
+}
+
+.list {
+	font-size: 18px;
+}
+
+.loader {
+	text-align: center;
+}
