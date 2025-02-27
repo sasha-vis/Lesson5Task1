@@ -1,3 +1,56 @@
-.task:not(:last-child) {
-	margin-bottom: 10px;
+.task:not(:last-child)::after {
+	content: '';
+	display: block;
+	width: 100%;
+	height: 2px;
+	margin: 10px 0;
+	background-color: #313131;
+}
+
+.content {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.controllers {
+	display: flex;
+	gap: 10px;
+}
+
+.edit,
+.delete {
+	padding: 5px 0;
+	width: 60px;
+	font-size: 14px;
+	letter-spacing: 1px;
+	color: #fff;
+	border: 2px solid #313131;
+	cursor: pointer;
+}
+
+.edit:hover,
+.delete:hover {
+	opacity: 0.8;
+}
+
+.edit:active,
+.delete:active {
+	opacity: 1;
+}
+
+.edit:active {
+	background-color: orangered;
+}
+
+.delete:active {
+	background-color: darkred;
+}
+
+.edit {
+	background-color: orange;
+}
+
+.delete {
+	background-color: red;
 }

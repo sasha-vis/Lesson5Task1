@@ -1,1 +1,1 @@
-export const TASK_LIST_URL = 'https://jsonplaceholder.typicode.com/todos';
+export const TASK_LIST_URL = 'http://localhost:3005/tasks';
