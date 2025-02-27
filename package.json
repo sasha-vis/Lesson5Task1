@@ -2,7 +2,6 @@
 	"name": "lesson5t1",
 	"version": "0.1.0",
 	"private": true,
-	"homepage": "https://sasha-vis.github.io/Lesson5Task1/",
 	"dependencies": {
 		"@testing-library/dom": "^10.4.0",
 		"@testing-library/jest-dom": "^6.6.3",
@@ -10,6 +9,7 @@
 		"@testing-library/user-event": "^13.5.0",
 		"eslint-config-prettier": "^10.0.1",
 		"eslint-plugin-prettier": "^5.2.3",
+		"firebase": "^11.3.1",
 		"prettier": "^3.5.1",
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0",

@@ -7,12 +7,12 @@ export const ToDoList = () => {
 	const [isSorted, setIsSorted] = useState(false);
 	const [searchValue, setSearchValue] = useState('');
 
-	const filteredTasks = tasksList.filter((task) =>
-		task.title.toLowerCase().includes(searchValue.toLowerCase()),
+	const filteredTasks = Object.entries(tasksList).filter(([id, { title }]) =>
+		title.toLowerCase().includes(searchValue.toLowerCase()),
 	);
 
 	const displayedTasks = isSorted
-		? filteredTasks.sort((a, b) => a.title.localeCompare(b.title))
+		? filteredTasks.sort((a, b) => a[1].title.localeCompare(b[1].title))
 		: filteredTasks;
 
 	const handleCreate = () => {

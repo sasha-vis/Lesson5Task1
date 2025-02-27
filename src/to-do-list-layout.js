@@ -37,11 +37,11 @@ export const ToDoListLayout = ({
 				<div className={styles.noTasks}>Задач не найдено</div>
 			) : (
 				<ol className={styles.list}>
-					{tasksList.map((listItem, index) => (
+					{tasksList.map(([id, { title }]) => (
 						<Task
-							key={index}
-							id={listItem.id}
-							value={listItem.title}
+							key={id}
+							id={id}
+							value={title}
 							handleEdit={handleEdit}
 							handleDelete={handleDelete}
 						/>

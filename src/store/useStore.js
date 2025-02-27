@@ -1,32 +1,30 @@
 import { useEffect, useState } from 'react';
-import { TASK_LIST_URL } from './../constants';
+import { ref, onValue, push, set, remove } from 'firebase/database';
+import { db } from './firebase';
 
 export const useStore = () => {
-	const [tasksList, setTasksList] = useState([]);
-	const [isLoading, setIsLoading] = useState(false);
+	const [tasksList, setTasksList] = useState({});
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
-		setIsLoading(true);
-		fetch(TASK_LIST_URL)
-			.then((response) => response.json())
-			.then((data) => setTasksList(data))
-			.catch((error) => console.error('Ошибка при загрузке задач:', error))
-			.finally(() => setIsLoading(false));
+		const tasksDbRef = ref(db, 'tasks');
+
+		return onValue(tasksDbRef, (snapshot) => {
+			const loadedTasks = snapshot.val() || {};
+			setTasksList(loadedTasks);
+			setIsLoading(false);
+		});
 	}, []);
 
 	const createTask = async (newTask) => {
 		setIsLoading(true);
+
+		const tasksDbRef = ref(db, 'tasks');
+
 		try {
-			const response = await fetch(TASK_LIST_URL, {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json;charset=utf-8' },
-				body: JSON.stringify({ title: newTask }),
+			await push(tasksDbRef, {
+				title: newTask,
 			});
-
-			if (!response.ok) throw new Error('Ошибка при создании задачи');
-
-			const data = await response.json();
-			setTasksList((prev) => [...prev, data]);
 		} catch (error) {
 			console.error(error);
 		} finally {
@@ -36,19 +34,13 @@ export const useStore = () => {
 
 	const editTask = async (taskId, editedTask) => {
 		setIsLoading(true);
+
+		const taskDbRef = ref(db, `tasks/${taskId}`);
+
 		try {
-			const response = await fetch(`${TASK_LIST_URL}/${taskId}`, {
-				method: 'PUT',
-				headers: { 'Content-Type': 'application/json;charset=utf-8' },
-				body: JSON.stringify({ title: editedTask }),
+			await set(taskDbRef, {
+				title: editedTask,
 			});
-
-			if (!response.ok) throw new Error('Ошибка при редактировании задачи');
-
-			const updatedTask = await response.json();
-			setTasksList((prev) =>
-				prev.map((task) => (task.id === updatedTask.id ? updatedTask : task)),
-			);
 		} catch (error) {
 			console.error(error);
 		} finally {
@@ -58,14 +50,11 @@ export const useStore = () => {
 
 	const deleteTask = async (taskId) => {
 		setIsLoading(true);
+
+		const taskDbRef = ref(db, `tasks/${taskId}`);
+
 		try {
-			const response = await fetch(`${TASK_LIST_URL}/${taskId}`, {
-				method: 'DELETE',
-			});
-
-			if (!response.ok) throw new Error('Ошибка при удалении задачи');
-
-			setTasksList((prev) => prev.filter((task) => task.id !== parseInt(taskId)));
+			await remove(taskDbRef);
 		} catch (error) {
 			console.error(error);
 		} finally {
